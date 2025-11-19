@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=61.0", "versioneer"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+include = '\.pyi?$'
+preview = false
+skip-string-normalization = true #disable string double quotes normalization

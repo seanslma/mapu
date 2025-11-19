@@ -1,2 +1,3 @@
 # mapu
-My python utils
+
+My personal python utils package

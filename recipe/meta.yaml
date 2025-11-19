@@ -1,0 +1,85 @@
+package:
+  name: mapu
+  version: "{{ version }}"
+
+source:
+  # This path is relative to the directory containing meta.yaml.
+  path: ../ # if it's `../mapu` conda-build will not copy the setup.cfg etc.
+
+build:
+  # Number of times this exact recipe has been built for this version.
+  # Increment this if you change the recipe but not the version of your software.
+  number: 0
+
+  # Conda-build will execute this script.
+  script: "{{ PYTHON }} -m pip install --no-deps --ignore-installed ."
+
+requirements:
+  # Build requirements: Dependencies needed to *build* the package.
+  # These are usually build tools, compilers, or specific Python versions for compilation.
+  build:
+    - pip
+    - python                               # [build_platform != target_platform]
+    - setuptools >=61.0.0 # Or flit, poetry, hatch if used for packaging
+  # - cross-python_emscripten_wasm32       # [emscripten_wasm32]
+
+  # Host requirements: Dependencies needed at *runtime* but also during *build*
+  # because the package links against them (e.g., shared libraries).
+  # For pure Python packages, this is often the same as `run`.
+  host:
+    - python
+    - pandas
+    - numpy
+
+  # Run requirements: Dependencies needed when the package is *used* (at runtime).
+  run:
+    - python
+    - pandas
+    - numpy
+
+test:
+  source_files:
+    - tests
+  # How to test the built package.
+  # Method 1: Run Python import tests (most common for Python packages)
+  # imports:
+  #   - my_package # Try to import your main package module
+
+  # Method 2: Run command-line tests (if your package installs executables)
+  # commands:
+  #   - my-cli-tool --version
+  #   - python -c "import my_package; assert my_package.__version__ == '{{ version }}'"
+
+  # Method 3: Run a custom test script
+  # script: test_package.py
+
+  # Optional: Additional dependencies needed only for testing.
+  # requires:
+  #   - pytest
+  #   - mock
+
+about:
+  # A concise summary of your package.
+  summary: "My personal python utils package"
+
+  # The homepage or project URL.
+  home: https://github.com/seanslma/mapu
+
+  # The license under which your package is distributed.
+  # Use an SPDX identifier if possible (e.g., MIT, BSD-3-Clause, Apache-2.0).
+  license: MIT
+  # license_file: LICENSE # Path to your license file if included in source
+
+  # Optional: More detailed description.
+  # description: |
+  #   This package provides utility functions for data processing and analysis.
+  #   It aims to simplify common tasks in scientific computing workflows.
+
+  # Optional: Additional URLs (e.g., documentation, issues tracker).
+  # doc_url: https://your-docs-site.com
+  # dev_url: https://github.com/your-username/my_awesome_package
+
+extra:
+  # Optional: Any extra metadata not used by conda-build itself, but useful for your project.
+  recipe-maintainers:
+    - seanslma # Your GitHub username or team name
