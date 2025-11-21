@@ -1,6 +1,21 @@
 [build-system]
-requires = ["setuptools>=61.0", "versioneer"]
+requires = ["setuptools>=61.0", "wheel", "versioneer[toml]"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = 'mapu'
+dynamic = ["version"]
+
+[tool.setuptools]
+packages = ["mapu"]
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440"
+versionfile_source = "mapu/_version.py"
+versionfile_build = "mapu/_version.py"
+tag_prefix = ""
+parentdir_prefix = "mapu-"
 
 [tool.black]
 line-length = 88
