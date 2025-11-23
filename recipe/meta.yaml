@@ -1,6 +1,6 @@
 package:
   name: mapu
-  version: "{{ version }}"
+  version: "{{ VERSION }}"
 
 source:
   # This path is relative to the directory containing meta.yaml.
@@ -60,7 +60,7 @@ test:
 
 about:
   # A concise summary of your package.
-  summary: "My personal python utils package"
+  summary: "My python utils package"
 
   # The homepage or project URL.
   home: https://github.com/seanslma/mapu

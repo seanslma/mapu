@@ -5,6 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = 'mapu'
 dynamic = ["version"]
+description = "My python utils package."
+authors = [
+    {name = "Sean Ma", email = "sean.sl.ma@gmail.com"},
+]
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "MIT"}
 
 [tool.setuptools]
 packages = ["mapu"]
