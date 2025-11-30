@@ -18,20 +18,21 @@ release = '0.0.1'
 # -- General configuration ---------------------------------------------------
 
 extensions = [
-    'sphinx.ext.autodoc',  # The core extension for reading docstrings
-    'sphinx.ext.napoleon',  # For Google/NumPy style docstrings (optional but good practice)
-    'sphinx.ext.viewcode',  # Links source code
-    'myst_parser',  # Allows reStructuredText to include Markdown files
+    # Core Sphinx extensions
+    'sphinx.ext.autodoc',  # To include documentation from docstrings
+    'numpydoc',  #'sphinx.ext.napoleon',  # To support NumPy and Google style docstrings
+    'sphinx.ext.viewcode',  # To link to the source code
+    'sphinx.ext.autosummary',  # To automatically generate summary tables
+    # Additional utility extensions
+    'sphinx_autodoc_typehints',  # To display type hints nicely
+    'sphinx_design',  # For badges, cards, etc.
 ]
 
-# Use the Furo theme (a modern alternative)
-html_theme = 'furo'
+# The suffix(es) of source filenames.
+source_suffix = '.rst'
 
-# Set the source file suffix to allow both .rst and .md
-source_suffix = {
-    '.rst': 'restructuredtext',
-    '.md': 'markdown',
-}
+# The master toctree document.
+master_doc = 'index'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -44,8 +45,29 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # -- Options for HTML output -------------------------------------------------
 
-html_theme = 'furo'
+# The theme to use. This enables the PyData Sphinx Theme.
+html_theme = 'pydata_sphinx_theme'
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = []  # ['_static'] for custom CSS/images
+
+
+# If true, the reST sources are included in the HTML build as _sources/foo.txt.
+html_copy_source = False
+
+# If true, "Created using Sphinx" is shown in the HTML footer.
+html_show_sphinx = True
+
+
+# -- Numpydoc configuration ---------------------------------------------------
+
+# Type hints: only show in signature
+autodoc_typehints = "signature"
+
+# Break signature into multiline format
+autodoc_typehints_format = "split"
+
+# Optional but helps match Polars aesthetic
+numpydoc_show_class_members = False

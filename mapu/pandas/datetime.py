@@ -23,38 +23,37 @@ def explode_date_range(
 
     Parameters
     ----------
-    df : pd.DataFrame
+    df:
         The input DataFrame with start/end date columns/index levels.
-    start_date_col : str
+    start_date_col:
         The column name in the DataFrame for the start date.
-    end_date_col : str
+    end_date_col:
         The column name in the DataFrame for the end date.
-    date_col : str
+    date_col:
         The column name in the DataFrame for the new date.
-    freq : str
+    freq:
         The frequency of the new date column.
-    start_date_offset : pd.DateOffset = None
+    start_date_offset:
         The date offset for the start date column.
-    end_date_offset : pd.DateOffset = None
+    end_date_offset:
         The date offset for the end date column.
-    start_date_roll : Literal['back', 'forward', None] = None
+    start_date_roll:
         Roll the start_date to the start of the current/next period.
-    end_date_roll : Literal['back', 'forward', None] = None
+    end_date_roll:
         Roll the end date to the start of the current/next period.
-    date_min : Union[pd.Timestamp, str] = None
+    date_min:
         The min value of the start date after offset.
-    date_max : Union[pd.Timestamp, str] = None
+    date_max:
         The max value of the end date after offset.
-    inclusive: Literal['both', 'left', 'right', 'neither'] = 'both'
+    inclusive:
         Include boundaries; Whether to set each bound as closed or open.
-    drop_index : bool = True
+    drop_index:
         This flag should be False when the input DataFrame has meaningful index.
-    drop_date_cols : bool = True
+    drop_date_cols:
         Whether to drop the start_date_col and end_date_col or not.
 
     Returns
     -------
-    pd.DataFrame
         The DataFrame same as the input but with
         start/end date columns replaced by the new date column
     """
