@@ -54,6 +54,7 @@ def explode_date_range(
 
     Returns
     -------
+    pl.DataFrame
         The DataFrame same as the input but with
         start/end date columns replaced by the new date column
     """
