@@ -1,4 +1,4 @@
-mapu API Reference
+mapu
 ==================
 
 Top-level module:

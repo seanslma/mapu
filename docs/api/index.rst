@@ -7,7 +7,7 @@ Mapu API Reference
     :maxdepth: 2
     :caption: Contents:
 
-    pandas
+    mapu
 
 
 Indices and tables
