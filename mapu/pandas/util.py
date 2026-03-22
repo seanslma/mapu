@@ -17,15 +17,11 @@ def df_diffs(df1, df2):
     )
 
     # Compare the columns to find differences
-    d1_joined = (
-        df_joined
-        .filter(like='_df1')
-        .rename(columns=lambda x: x.rsplit('_', 1)[0])
+    d1_joined = df_joined.filter(like='_df1').rename(
+        columns=lambda x: x.rsplit('_', 1)[0]
     )
-    d2_joined = (
-        df_joined
-        .filter(like='_df2')
-        .rename(columns=lambda x: x.rsplit('_', 1)[0])
+    d2_joined = df_joined.filter(like='_df2').rename(
+        columns=lambda x: x.rsplit('_', 1)[0]
     )
 
     # Compare two dfs with `ne`, col names must be the same
@@ -33,23 +29,28 @@ def df_diffs(df1, df2):
 
     return diffs
 
+
 if __name__ == '__main__':
-  # Create two example DataFrames with string columns
-  df1 = pd.DataFrame({
-      'fruit': ['apple', 'banana'],
-      'id': [1, 2],
-      'price': [4, 3.1],
-      'store': ['us', 'uk'],
-  }).set_index(['fruit', 'id'])
-  
-  df2 = pd.DataFrame({
-      'fruit': ['apple', 'banana'],
-      'id': [1, 3],
-      'price': [4, 3.2],
-      'store': ['us', 'uk'],
-  }).set_index(['fruit', 'id'])
-  
-  df = pandas_diffs(df1, df2)
-  
-  # Show the resulting differences
-  print(df)
+    # Create two example DataFrames with string columns
+    df1 = pd.DataFrame(
+        {
+            'fruit': ['apple', 'banana'],
+            'id': [1, 2],
+            'price': [4, 3.1],
+            'store': ['us', 'uk'],
+        }
+    ).set_index(['fruit', 'id'])
+
+    df2 = pd.DataFrame(
+        {
+            'fruit': ['apple', 'banana'],
+            'id': [1, 3],
+            'price': [4, 3.2],
+            'store': ['us', 'uk'],
+        }
+    ).set_index(['fruit', 'id'])
+
+    df = df_diffs(df1, df2)
+
+    # Show the resulting differences
+    print(df)
