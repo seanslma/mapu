@@ -13,7 +13,7 @@ def pa_mod(
         divisor: The positive divisor for the modulo operation
 
     Returns:
-        pd.Series: An integer or pd.series containing the modulo results
+        int | pd.Series: An integer or pd.series containing the modulo results
     """
 
     if divisor <= 0:

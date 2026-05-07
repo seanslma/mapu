@@ -1,6 +1,6 @@
-from .parquet import pa_mod
 from .datetime import explode_date_range
-from .util import df_diffs
+from .parquet import pa_mod
+from .utils import df_diffs
 
 __all__ = [
     'pa_mod',

@@ -34,19 +34,19 @@ if __name__ == '__main__':
     # Create two example DataFrames with string columns
     df1 = pd.DataFrame(
         {
-            'fruit': ['apple', 'banana'],
-            'id': [1, 2],
-            'price': [4, 3.1],
-            'store': ['us', 'uk'],
+            'fruit': ['apple', 'banana', 'apple'],
+            'id': [1, 2, 4],
+            'store': ['us', 'uk', 'cn'],
+            'price': [4, 3.1, 2.5],
         }
     ).set_index(['fruit', 'id'])
 
     df2 = pd.DataFrame(
         {
-            'fruit': ['apple', 'banana'],
-            'id': [1, 3],
-            'price': [4, 3.2],
-            'store': ['us', 'uk'],
+            'fruit': ['apple', 'banana', 'apple'],
+            'id': [1, 3, 4],
+            'store': ['us', 'uk', 'cn'],
+            'price': [4, 3.2, 2.5],
         }
     ).set_index(['fruit', 'id'])
 

@@ -35,9 +35,7 @@ def lowercase_polars_df(df: pl.DataFrame) -> pl.DataFrame:
     # Lowercase column headers
     df = df.rename({col: col.lower() for col in df.columns})
     # Lowercase string columns
-    df = df.with_columns([
-        cs.string().str.to_lowercase()
-    ])
+    df = df.with_columns([cs.string().str.to_lowercase()])
     return df
 
 
@@ -45,18 +43,13 @@ def to_float32_polars_df(df: pl.DataFrame) -> pl.DataFrame:
     """
     Convert all numerical columns type to float32
     """
-    df = df.with_columns(
-        (cs.float() | cs.decimal()).cast(pl.Float32)
-    )
+    df = df.with_columns((cs.float() | cs.decimal()).cast(pl.Float32))
     return df
 
 
 def inf_count(df: pl.DataFrame) -> pl.DataFrame:
     df_inf = (
-        df.select([
-            (pl.col(col).is_infinite().sum().alias(col))
-            for col in df.columns
-        ])
+        df.select([(pl.col(col).is_infinite().sum().alias(col)) for col in df.columns])
         .unpivot(variable_name='col', value_name='inf_cnt')
         .filter(pl.col('inf_cnt') > 0)
         .sort('inf_cnt', descending=True)
@@ -66,10 +59,7 @@ def inf_count(df: pl.DataFrame) -> pl.DataFrame:
 
 def nan_count(df: pl.DataFrame) -> pl.DataFrame:
     df_nan = (
-        df.select([
-            (pl.col(col).is_nan().sum().alias(col))
-            for col in df.columns
-        ])
+        df.select([(pl.col(col).is_nan().sum().alias(col)) for col in df.columns])
         .unpivot(variable_name='col', value_name='nan_cnt')
         .filter(pl.col('nan_cnt') > 0)
         .sort('nan_cnt', descending=True)
@@ -79,10 +69,7 @@ def nan_count(df: pl.DataFrame) -> pl.DataFrame:
 
 def nul_count(df: pl.DataFrame) -> pl.DataFrame:
     df_nul = (
-        df.select([
-            (pl.col(col).is_null().sum().alias(col))
-            for col in df.columns
-        ])
+        df.select([(pl.col(col).is_null().sum().alias(col)) for col in df.columns])
         .unpivot(variable_name='col', value_name='nul_cnt')
         .filter(pl.col('nul_cnt') > 0)
         .sort('nul_cnt', descending=True)
