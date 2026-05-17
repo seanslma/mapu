@@ -9,7 +9,17 @@ pip install --no-deps --editable .
 
 ## build pip wheel
 ```sh
+git tag 0.0.1
+python -m build
 python -m build --outdir ../pip-build-path
+```
+
+upload to pypi:
+```sh
+# test
+twine upload --repository testpypi dist/*
+# publish
+twine upload dist/*
 ```
 
 ## build conda package

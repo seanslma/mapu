@@ -1,5 +1,5 @@
 import pandas as pd
-from mapu.pandas_utils import df_diffs
+from mapu.pandas import df_diffs
 
 
 def test_df_diffs_basic():
