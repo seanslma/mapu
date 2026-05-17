@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
-from mapu.pandas_utils import explode_date_range
+from mapu.pandas import explode_date_range
 
 
 def test_basic():
