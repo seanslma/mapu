@@ -2,12 +2,18 @@ import polars as pl
 import polars.selectors as cs
 
 
-def pl_ht(self, n=2):
-    if self.shape[0] < 2 * n:
+def pl_ht(self, n=2, c=None, r=None):
+    if n < 0 or self.shape[0] < 2 * n:
         df = self
     else:
         df = pl.concat([self[:n], self[-n:]])
-    with pl.Config(tbl_hide_dataframe_shape=True):
+    if r is not None and r >= 0:
+        df = df.with_columns((cs.float() | cs.decimal()).round(r))
+    with pl.Config(
+        tbl_hide_dataframe_shape=True,
+        tbl_rows=2 * n,
+        tbl_cols=c,
+    ):
         print(f'shape: {self.shape}')
         print(df)
 
