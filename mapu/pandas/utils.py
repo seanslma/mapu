@@ -1,6 +1,31 @@
 import pandas as pd
 
 
+def pd_ht(self, n=2, c=None, r=None):
+    if n < 0 or self.shape[0] <= 2 * n:
+        df = self
+    else:
+        df = pd.concat([self[:n], self[-n:]])
+    with pd.option_context(
+        'display.show_dimensions', False,
+        'display.max_rows', None if (n is None or n < 0) else 2 * n,
+        'display.max_columns', None if (c is None or c < 0) else c,
+    ):
+        print(f'shape: {self.shape}')
+        print(df)
+
+
+def remove_cols_utc(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Converts datetime columns in UTC to timezone-naive (tz=None)
+    """
+    for col in df.select_dtypes(include=['datetimetz']).columns:
+        tz = df[col].dt.tz
+        if tz is not None and 'utc' in str(tz).lower():
+            df[col] = df[col].dt.tz_localize(None)
+    return df
+
+
 def df_diffs(df1, df2):
     """
     Get rows in two dfs that are different to each other.
