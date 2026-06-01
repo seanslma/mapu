@@ -12,8 +12,8 @@ def explode_date_range(
     end_date_offset: pd.DateOffset = None,
     start_date_roll: Literal['back', 'forward'] | None = None,
     end_date_roll: Literal['back', 'forward'] | None = None,
-    date_min: str | pd.Timestamp = None,
-    date_max: str | pd.Timestamp = None,
+    min_date: str | pd.Timestamp = None,
+    max_date: str | pd.Timestamp = None,
     inclusive: Literal['both', 'left', 'right', 'neither'] = 'both',
     drop_index: bool = True,
     drop_date_cols: bool = True,
@@ -41,9 +41,9 @@ def explode_date_range(
         Roll the start_date to the start of the current/next period.
     end_date_roll:
         Roll the end date to the start of the current/next period.
-    date_min:
+    min_date:
         The min value of the start date after offset.
-    date_max:
+    max_date:
         The max value of the end date after offset.
     inclusive:
         Include boundaries; Whether to set each bound as closed or open.
@@ -109,13 +109,13 @@ def explode_date_range(
             df[start_date_col].dt.to_period(roll_freq) + extra_period
         ).dt.start_time
 
-    # limit start_date and replace null with date_min
-    if date_min is not None:
-        date_min = pd.to_datetime(date_min, dayfirst=True)
+    # limit start_date and replace null with min_date
+    if min_date is not None:
+        min_date = pd.to_datetime(min_date, dayfirst=True)
         df[start_date_col] = (
             df[start_date_col]
-            .fillna(date_min)
-            .where(df[start_date_col] > date_min, date_min)
+            .fillna(min_date)
+            .where(df[start_date_col] > min_date, min_date)
         )
 
     # offset end date
@@ -130,13 +130,13 @@ def explode_date_range(
             df[end_date_col].dt.to_period(roll_freq) + extra_period
         ).dt.start_time
 
-    # limit end_date and replace null with date_max
-    if date_max is not None:
-        date_max = pd.to_datetime(date_max, dayfirst=True)
+    # limit end_date and replace null with max_date
+    if max_date is not None:
+        max_date = pd.to_datetime(max_date, dayfirst=True)
         df[end_date_col] = (
             df[end_date_col]
-            .fillna(date_max)
-            .where(df[end_date_col] < date_max, date_max)
+            .fillna(max_date)
+            .where(df[end_date_col] < max_date, max_date)
         )
 
     # FIXME: special regarding pandas version
