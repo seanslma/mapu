@@ -7,9 +7,12 @@ def pd_ht(self, n=2, c=None, r=None):
     else:
         df = pd.concat([self[:n], self[-n:]])
     with pd.option_context(
-        'display.show_dimensions', False,
-        'display.max_rows', None if (n is None or n < 0) else 2 * n,
-        'display.max_columns', None if (c is None or c < 0) else c,
+        'display.show_dimensions',
+        False,
+        'display.max_rows',
+        None if (n is None or n < 0) else 2 * n,
+        'display.max_columns',
+        None if (c is None or c < 0) else c,
     ):
         print(f'shape: {self.shape}')
         print(df)
@@ -26,7 +29,7 @@ def remove_cols_utc(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def df_diffs(df1, df2):
+def df_diffs(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
     """
     Get rows in two dfs that are different to each other.
     Comparison is based on df MultiIndex

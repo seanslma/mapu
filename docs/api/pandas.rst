@@ -2,15 +2,16 @@
 
 pandas
 ======
-.. currentmodule:: mapu.pandas
 
+.. currentmodule:: mapu.pandas
 
 Functions
 ~~~~~~~~~
+
 .. autosummary::
    :toctree: api/
    :nosignatures:
 
+   df_diffs
    explode_date_range
-   gen_rand_df
    pa_mod

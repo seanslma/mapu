@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 project = 'mapu'
-copyright = '2025, Sean Ma'
+copyright = '2026, Sean Ma'
 author = 'Sean Ma'
 release = '0.0.1'
 
@@ -21,7 +21,14 @@ extensions = [
     # 'sphinx_autodoc_typehints',  # To display type hints nicely
     'numpydoc',  # To support NumPy style docstrings
     'sphinx_design',  # For badges, cards, etc.
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx_copybutton",  # To add copy buttons to code blocks
 ]
+
+# Strip the >>> and ... prompts so copied code is clean
+copybutton_prompt_text = ">>> |\\.\\.\\. "
+copybutton_prompt_is_regexp = True
 
 # The suffix(es) of source filenames.
 source_suffix = '.rst'
@@ -77,3 +84,13 @@ numpydoc_show_class_members = False
 
 # Don't show type hints in the parameter descriptions since they're in signature
 numpydoc_show_type_hint = False
+
+# Mock imports for modules that are not available in the documentation environment
+autodoc_mock_imports = []
+
+# Global setup for doctests
+doctest_global_setup = """
+import numpy as np
+import polars as pl
+# anything else needed globally
+"""

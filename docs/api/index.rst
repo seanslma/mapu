@@ -1,14 +1,15 @@
-.. mapu documentation master file, created by Sphinx.
+.. mapu documentation master file
 
 Mapu API Reference
 ==================
 
 .. toctree::
-    :maxdepth: 2
-    :caption: Contents:
+   :maxdepth: 2
+   :caption: Contents:
 
-    mapu
-
+   mapu
+   pandas
+   polars
 
 Indices and tables
 ==================

@@ -1,17 +1,13 @@
 mapu
-==================
+====
 
-Top-level module:
-
-.. automodule:: mapu
-    :members:
+Top-level module.
 
 Submodules
 ----------
 
-mapu.pandas module:
+.. toctree::
+    :maxdepth: 1
 
-.. automodule:: mapu.pandas
-    :members:
-    :undoc-members:
-    :show-inheritance:
+    pandas
+    polars
