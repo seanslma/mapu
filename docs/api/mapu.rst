@@ -9,5 +9,6 @@ Submodules
 .. toctree::
     :maxdepth: 1
 
+    data
     pandas
     polars

@@ -10,8 +10,8 @@ def explode_date_range(
     freq: str = '30min',
     start_date_offset: pd.DateOffset = None,
     end_date_offset: pd.DateOffset = None,
-    start_date_roll: Literal['back', 'forward'] | None = None,
-    end_date_roll: Literal['back', 'forward'] | None = None,
+    start_date_roll: Literal['backward', 'forward'] | None = None,
+    end_date_roll: Literal['backward', 'forward'] | None = None,
     min_date: str | pd.Timestamp = None,
     max_date: str | pd.Timestamp = None,
     inclusive: Literal['both', 'left', 'right', 'neither'] = 'both',
@@ -57,6 +57,61 @@ def explode_date_range(
     pl.DataFrame
         The DataFrame same as the input but with
         start/end date columns replaced by the new date column
+
+    Examples
+    --------
+    Simple usage.
+
+    >>> df = pd.DataFrame({
+    ...     'start_date': ['2023-01-01', '2023-01-02'],
+    ...     'end_date': ['2023-01-01 01:00', '2023-01-02 02:00'],
+    ... })
+    >>> df_exploded = explode_date_range(df, 'start_date', 'end_date', freq='1h')
+    >>> print(df_exploded)
+                       ts
+    0 2023-01-01 00:00:00
+    1 2023-01-01 01:00:00
+    2 2023-01-02 00:00:00
+    3 2023-01-02 01:00:00
+    4 2023-01-02 02:00:00
+
+    With offset for start and end date.
+
+    >>> df = pd.DataFrame({
+    ...     'start_date': ['2023-01-01', '2023-01-02'],
+    ...     'end_date': ['2023-01-01 01:00:00', '2023-01-02 02:00:00'],
+    ... })
+    >>> df_exploded = explode_date_range(
+    ...     df=df,
+    ...     start_date_col='start_date',
+    ...     end_date_col='end_date',
+    ...     freq='1h',
+    ...     start_date_offset=pd.DateOffset(hours=1),
+    ...     end_date_offset=pd.DateOffset(hours=-1),
+    ... )
+    >>> print(df_exploded)
+                       ts
+    0 2023-01-02 01:00:00
+
+    With rolling start and end date to the nearest frequency (hour).
+
+    >>> df = pd.DataFrame({
+    ...     'start_date': ['2023-01-01 00:30', '2023-01-02 00:30'],
+    ...     'end_date': ['2023-01-01 01:30', '2023-01-02 02:30'],
+    ... })
+    >>> df_exploded = explode_date_range(
+    ...     df=df,
+    ...     start_date_col='start_date',
+    ...     end_date_col='end_date',
+    ...     freq='1h',
+    ...     start_date_roll='forward',
+    ...     end_date_roll='backward',
+    ... )
+    >>> print(df_exploded)
+                       ts
+    0 2023-01-01 01:00:00
+    1 2023-01-02 01:00:00
+    2 2023-01-02 02:00:00
     """
     if not drop_index:
         levels_old = list(df.index.names)
@@ -104,7 +159,7 @@ def explode_date_range(
     # roll start date
     if start_date_roll is not None:
         roll_freq = freq if freq[-1] != 'S' else freq[:-1]
-        extra_period = 0 if start_date_roll == 'back' else 1
+        extra_period = 0 if start_date_roll == 'backward' else 1
         df[start_date_col] = (
             df[start_date_col].dt.to_period(roll_freq) + extra_period
         ).dt.start_time
@@ -125,7 +180,7 @@ def explode_date_range(
     # roll end date
     if end_date_roll is not None:
         roll_freq = freq if freq[-1] != 'S' else freq[:-1]
-        extra_period = 0 if end_date_roll == 'back' else 1
+        extra_period = 0 if end_date_roll == 'backward' else 1
         df[end_date_col] = (
             df[end_date_col].dt.to_period(roll_freq) + extra_period
         ).dt.start_time

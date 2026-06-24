@@ -8,6 +8,7 @@ Mapu API Reference
    :caption: Contents:
 
    mapu
+   data
    pandas
    polars
 

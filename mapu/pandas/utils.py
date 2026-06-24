@@ -1,18 +1,72 @@
 import pandas as pd
 
 
-def pd_ht(self, n=2, c=None, r=None):
+def pd_ht(self, n: int = 2, c: int = None, w: int = None, r: int = None) -> None:
+    """
+    Pandas head and tail in one command, with optional rounding.
+
+    Parameters
+    ----------
+    n : int
+        Number of rows to show from the head and tail. If n < 0 or n is greater than
+        half the number of rows, the entire DataFrame will be shown.
+    c : int
+        Number of columns to show. If None or greater than the number of columns,
+        all columns will be shown.
+    w : int
+        Display width in characters. If None, pandas default is used.
+    r : int
+        Number of decimal places to round float columns. If None or negative,
+        no rounding will be applied.
+
+    Returns
+    -------
+    None
+
+    Examples
+    --------
+    >>> import pandas as pd
+    >>> from mapu.pandas.utils import pd_ht
+    >>> pd.DataFrame.ht = pd_ht
+    >>> df = pd.DataFrame({
+    ...     'foo': [1.12345, 2.98765, 3.14159],
+    ...     'bar': [7, 8, 9],
+    ...     'ham': ['x', 'y', 'z'],
+    ... })
+    >>> df.ht(n=1, c=2, r=2)
+    shape: (3, 3)
+        foo  ...  ham
+    0  1.12  ...    x
+    2  3.14  ...    z
+    """
+    # Columns to show
+    if isinstance(c, int) and c <= 0:
+        c = None
+
+    # Display width
+    if isinstance(w, int) and w <= 0:
+        w = 1000
+
+    # Slice head + tail (or full df)
     if n < 0 or self.shape[0] <= 2 * n:
         df = self
     else:
-        df = pd.concat([self[:n], self[-n:]])
+        df = pd.concat([self.iloc[:n], self.iloc[-n:]])
+
+    # Round float columns
+    if r is not None and r >= 0:
+        float_cols = df.select_dtypes(include='float').columns
+        df[float_cols] = df[float_cols].round(r)
+
     with pd.option_context(
         'display.show_dimensions',
         False,
+        'display.width',
+        w,
         'display.max_rows',
-        None if (n is None or n < 0) else 2 * n,
+        df.shape[0],
         'display.max_columns',
-        None if (c is None or c < 0) else c,
+        c,
     ):
         print(f'shape: {self.shape}')
         print(df)
@@ -20,7 +74,7 @@ def pd_ht(self, n=2, c=None, r=None):
 
 def remove_cols_utc(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Converts datetime columns in UTC to timezone-naive (tz=None)
+    Converts datetime columns in UTC to timezone-naive (tz=None).
     """
     for col in df.select_dtypes(include=['datetimetz']).columns:
         tz = df[col].dt.tz
@@ -29,10 +83,68 @@ def remove_cols_utc(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def df_diffs(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
+def df_diffs(
+    df1: pd.DataFrame,
+    df2: pd.DataFrame,
+    left_suffix: str = '_df1',
+    right_suffix: str = '_df2',
+) -> pd.DataFrame:
     """
     Get rows in two dfs that are different to each other.
-    Comparison is based on df MultiIndex
+
+    Comparison is based on df MultiIndex.
+
+    Parameters
+    ----------
+    df1 : pd.DataFrame
+        First DataFrame to compare.
+    df2 : pd.DataFrame
+        Second DataFrame to compare.
+    left_suffix : str
+        Suffix to append to column names from df1 in the output DataFrame.
+    right_suffix : str
+        Suffix to append to column names from df2 in the output DataFrame.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame containing rows that are different between df1 and df2, with suffixes
+        indicating the source of each column.
+
+    Examples
+    --------
+    >>> import pandas as pd
+    >>> from mapu.pandas import df_diffs
+    >>> df1 = pd.DataFrame({
+    ...     'fruit': ['apple', 'banana', 'apple'],
+    ...     'id': [1, 2, 4],
+    ...     'store': ['us', 'uk', 'cn'],
+    ...     'price': [4, 3.1, 2.5],
+    ... }).set_index(['fruit', 'id'])
+    >>> print(df1)
+            store  price
+    fruit  id
+    apple  1     us    4.0
+    banana 2     uk    3.1
+    apple  4     cn    2.5
+    >>> df2 = pd.DataFrame({
+    ...     'fruit': ['apple', 'banana', 'apple'],
+    ...     'id': [1, 3, 4],
+    ...     'store': ['us', 'uk', 'cn'],
+    ...     'price': [4, 3.2, 2.5],
+    ... }).set_index(['fruit', 'id'])
+    >>> print(df2)
+            store  price
+    fruit  id
+    apple  1     us    4.0
+    banana 3     uk    3.2
+    apple  4     cn    2.5
+    >>> diff = df_diffs(df1, df2)
+    >>> print(diff)
+              store_df1  price_df1 store_df2  price_df2
+    fruit  id
+    banana 2         uk        3.1       NaN        NaN
+           3        NaN        NaN        uk        3.2
     """
     # Perform an outer join
     df_joined = pd.merge(
@@ -41,14 +153,14 @@ def df_diffs(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
         how='outer',
         left_index=True,
         right_index=True,
-        suffixes=('_df1', '_df2'),
+        suffixes=(left_suffix, right_suffix),
     )
 
     # Compare the columns to find differences
-    d1_joined = df_joined.filter(like='_df1').rename(
+    d1_joined = df_joined.filter(like=left_suffix).rename(
         columns=lambda x: x.rsplit('_', 1)[0]
     )
-    d2_joined = df_joined.filter(like='_df2').rename(
+    d2_joined = df_joined.filter(like=right_suffix).rename(
         columns=lambda x: x.rsplit('_', 1)[0]
     )
 

@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from mapu.pandas import df_diffs
 
@@ -26,10 +27,10 @@ def test_df_diffs_basic():
     # Expected output with suffixes for each dataframe
     expected = pd.DataFrame(
         {
-            'store_df1': ['uk', None],
-            'price_df1': [3.1, None],
-            'store_df2': [None, 'uk'],
-            'price_df2': [None, 3.2],
+            'store_df1': ['uk', np.nan],
+            'price_df1': [3.1, np.nan],
+            'store_df2': [np.nan, 'uk'],
+            'price_df2': [np.nan, 3.2],
         },
         index=pd.MultiIndex.from_tuples(
             [('banana', 2), ('banana', 3)], names=['fruit', 'id']

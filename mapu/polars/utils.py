@@ -3,7 +3,7 @@ import polars.selectors as cs
 from typing import Literal
 
 
-def pl_ht(self, n=2, c=None, w=None, r=None) -> None:
+def pl_ht(self, n: int = 2, c: int = None, w: int = None, r: int = None) -> None:
     """
     Polars head and tail in one command, with optional rounding.
 
@@ -15,7 +15,7 @@ def pl_ht(self, n=2, c=None, w=None, r=None) -> None:
     c : int
         Number of columns to show. If None or greater than the number of columns,
         all columns will be shown.
-    w: int
+    w : int
         Width of the output in characters. If None, the width will be determined.
     r : int
         Number of decimal places to round float and decimal columns. If None or negative,
@@ -64,7 +64,7 @@ def pl_ht(self, n=2, c=None, w=None, r=None) -> None:
 
 def parquet_to_csv(filepath: str):
     """
-    Read parquet and save as csv
+    Read parquet and save as csv.
     """
     filepath_csv = f'{filepath[:-7]}csv'
     pl.read_parquet(filepath).write_csv(filepath_csv)
@@ -75,7 +75,7 @@ def lowercase_polars_df(
     lowercase: Literal['header', 'columns', 'both'] = 'both',
 ) -> pl.DataFrame:
     """
-    Converts all column headers and string columns in a Polars DataFrame to lowercase
+    Converts all column names and string columns to lowercase.
     """
     # Lowercase column headers
     if lowercase in ('header', 'both'):
@@ -88,13 +88,19 @@ def lowercase_polars_df(
 
 def to_float32_polars_df(df: pl.DataFrame) -> pl.DataFrame:
     """
-    Convert all numerical columns type to float32
+    Convert all numerical columns type to float32.
     """
     df = df.with_columns((cs.float() | cs.decimal()).cast(pl.Float32))
     return df
 
 
 def inf_count(df: pl.DataFrame) -> pl.DataFrame:
+    """
+    Counts the number of infinite values in each column of a Polars DataFrame.
+
+    Returns a new DataFrame with the column names and their corresponding counts,
+    sorted in descending order.
+    """
     df_inf = (
         df.select([(pl.col(col).is_infinite().sum().alias(col)) for col in df.columns])
         .unpivot(variable_name='col', value_name='inf_cnt')
@@ -105,6 +111,12 @@ def inf_count(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def nan_count(df: pl.DataFrame) -> pl.DataFrame:
+    """
+    Counts the number of NaN values in each column of a Polars DataFrame.
+
+    Returns a new DataFrame with the column names and their corresponding counts,
+    sorted in descending order.
+    """
     df_nan = (
         df.select([(pl.col(col).is_nan().sum().alias(col)) for col in df.columns])
         .unpivot(variable_name='col', value_name='nan_cnt')
@@ -115,6 +127,12 @@ def nan_count(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def nul_count(df: pl.DataFrame) -> pl.DataFrame:
+    """
+    Counts the number of null values in each column of a Polars DataFrame.
+
+    Returns a new DataFrame with the column names and their corresponding counts,
+    sorted in descending order.
+    """
     df_nul = (
         df.select([(pl.col(col).is_null().sum().alias(col)) for col in df.columns])
         .unpivot(variable_name='col', value_name='nul_cnt')

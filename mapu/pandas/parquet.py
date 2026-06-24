@@ -6,14 +6,19 @@ def pa_mod(
     divisor: int,
 ) -> int | pd.Series:
     """
-    Calculates remainder after division by a positive divisor
+    Calculates remainder after division by a positive divisor.
 
-    Args:
-        ds: An integer value or a pd.Series with int64[pyarrow] dtype
-        divisor: The positive divisor for the modulo operation
+    Parameters:
+    -----------
+    ds: int | pd.Series
+        An integer value or a pd.Series with int64[pyarrow] dtype
+    divisor: int
+        The positive divisor for the modulo operation
 
     Returns:
-        int | pd.Series: An integer or pd.series containing the modulo results
+    -----------
+    int | pd.Series:
+        An integer or pd.series containing the modulo results
     """
 
     if divisor <= 0:

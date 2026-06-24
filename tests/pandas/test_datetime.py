@@ -11,8 +11,6 @@ def test_basic():
             'end_date': ['2023-01-01 01:00:00', '2023-01-02 02:00:00'],
         }
     )
-    df['start_date'] = pd.to_datetime(df['start_date'])
-    df['end_date'] = pd.to_datetime(df['end_date'])
 
     result = explode_date_range(df, 'start_date', 'end_date', freq='1h')
     expected = pd.DataFrame(
@@ -39,8 +37,6 @@ def test_with_offsets():
             'end_date': ['2023-01-01 01:00:00', '2023-01-02 02:00:00'],
         }
     )
-    df['start_date'] = pd.to_datetime(df['start_date'])
-    df['end_date'] = pd.to_datetime(df['end_date'])
 
     result = explode_date_range(
         df,
@@ -62,8 +58,6 @@ def test_with_roll():
             'end_date': ['2023-01-01 01:30:00', '2023-01-02 02:30:00'],
         }
     )
-    df['start_date'] = pd.to_datetime(df['start_date'])
-    df['end_date'] = pd.to_datetime(df['end_date'])
 
     result = explode_date_range(
         df,
@@ -71,7 +65,7 @@ def test_with_roll():
         'end_date',
         freq='1h',
         start_date_roll='forward',
-        end_date_roll='back',
+        end_date_roll='backward',
     )
     expected = pd.DataFrame(
         {
@@ -96,8 +90,6 @@ def test_invalid_column_names():
     df = pd.DataFrame(
         {'start_date': ['2023-01-01'], 'end_date': ['2023-01-01 01:00:00']}
     )
-    df['start_date'] = pd.to_datetime(df['start_date'])
-    df['end_date'] = pd.to_datetime(df['end_date'])
 
     with pytest.raises(KeyError):
         explode_date_range(df, 'invalid_start', 'end_date', freq='1h')

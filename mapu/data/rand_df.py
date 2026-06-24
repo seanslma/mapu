@@ -111,7 +111,7 @@ def sanitize_parameters(
         par = {
             k: (
                 list(v) + [None] * (cnt - len(v))
-                if isinstance(v, Iterable)
+                if isinstance(v, Iterable) and not isinstance(v, str)
                 else [v] * cnt
             )
             for k, v in params.items()
@@ -138,8 +138,133 @@ def gen_rand_df(
     float_cols: dict = None,
     rand_seed: int = 11,
 ) -> pd.DataFrame:
+    """
+    Generate a random DataFrame with specified column types and parameters.
+
+    Parameters
+    ----------
+    nrow : int
+        Number of rows in the generated DataFrame.
+    str_cols : dict or int, optional
+        Parameters for string columns. If an integer is provided, it specifies the
+        number of string columns to generate with default parameters. If a dictionary
+        is provided, it should include the following keys:
+
+        - count: number of columns
+        - name: list of column names
+        - str_len: int or tuple of (min, max) string length
+        - str_chars: list of characters to use in strings
+        - col_strs: list of lists of strings to sample from for each column (if
+          provided, overrides str_len and str_chars)
+    ts_cols : dict or int, optional
+        Parameters for timestamp columns. If an integer is provided, it specifies the
+        number of timestamp columns to generate with default parameters. If a dictionary
+        is provided, it should include the following keys:
+
+        - count: number of columns
+        - name: list of column names
+        - start_date: start date for timestamp generation
+        - end_date: end date for timestamp generation
+        - freq: frequency for timestamp generation (e.g. 'D' for daily)
+        - random: whether to sample timestamps randomly from the generated range
+    int_cols : dict or int, optional
+        Parameters for integer columns. If an integer is provided, it specifies the
+        number of integer columns to generate with default parameters. If a dictionary
+        is provided, it should include the following keys:
+
+        - count: number of columns
+        - name: list of column names
+        - low: lower bound for random number generation
+        - high: upper bound for random number generation
+        - missing_pct: percentage of values to set as missing (NaN or None)
+    float_cols : dict or int, optional
+        Parameters for float columns. If an integer is provided, it specifies the
+        number of float columns to generate with default parameters. If a dictionary
+        is provided, it should include the following keys:
+
+        - count: number of columns
+        - name: list of column names
+        - low: lower bound for random number generation
+        - high: upper bound for random number generation
+        - missing_pct: percentage of values to set as missing (NaN or None)
+    rand_seed : int, optional
+        Random seed for reproducibility (default is 11).
+
+    Returns
+    -------
+    pd.DataFrame
+        A DataFrame with the specified random data.
+
+    Examples
+    --------
+
+    Simply specify the number of columns for each type.
+
+    >>> import pandas as pd
+    >>> from mapu.data import gen_rand_df
+    >>> from mapu.pandas import pd_ht
+    >>> pd.DataFrame.ht = pd_ht
+    >>> df = gen_rand_df(
+    ...     nrow=365 * 24 * 60,
+    ...     str_cols=1,
+    ...     ts_cols=2,
+    ...     int_cols=1,
+    ...     float_cols=2,
+    ... )
+    >>> df.ht()
+    shape: (525600, 6)
+            s1            t1         t2  i1        f1        f2
+    0       IZD8v 2024-01-01 2024-01-01   0  1.593760  1.648840
+    1       P9r1i 2024-01-02 2024-01-02   0  1.622772  1.943180
+    525598  iU68M        NaT        NaT   1  1.277124  0.093818
+    525599  P9r1i        NaT        NaT   1  1.248407  0.601518
+
+    Provide detailed parameters for each column type.
+
+    >>> import pandas as pd
+    >>> from mapu.data import gen_rand_df
+    >>> from mapu.pandas import pd_ht
+    >>> pd.DataFrame.ht = pd_ht
+    >>> d2 = gen_rand_df(
+    ...     nrow=10,
+    ...     str_cols={
+    ...         'count': 2,
+    ...         'name': ['country', 'color'],
+    ...         'str_len': [3, (3, 9)],
+    ...         'str_cnt': [2, 5],
+    ...         'col_strs': [['UK', 'US', 'AU'], ['blue', 'black', 'red']],
+    ...     },
+    ...     ts_cols={
+    ...         'count': 2,
+    ...         'name': ['start_date', 'end_date'],
+    ...         'start_date': ['2020-01-01', '2024-01-01'],
+    ...         'end_date': ['2021-01-01', '2025-01-01'],
+    ...         'freq': 'QS',
+    ...         'random': False,
+    ...     },
+    ...     int_cols={
+    ...         'count': 1,
+    ...         'name': ['quantity'],
+    ...         'low': [0],
+    ...         'high': [100],
+    ...         'missing_pct': [0.3],
+    ...     },
+    ...     float_cols={
+    ...         'count': 2,
+    ...         'name': ['price', 'charge'],
+    ...         'low': [1, 0.1],
+    ...         'high': [100, 0.9],
+    ...         'missing_pct': [0.3, 0.2],
+    ...     },
+    ... )
+    >>> d2.ht(1)
+    shape: (10, 7)
+      country  color start_date   end_date  quantity      price    charge
+    0      UK  black 2020-01-01 2024-01-01      86.0        NaN  0.657889
+    9      UK  black        NaT        NaT      13.0  43.564921  0.776712
+    """
     col_types = ['s', 't', 'i', 'f']
-    inputs = [str_cols, ts_cols, int_cols, float_cols]
+    col_params = [str_cols, ts_cols, int_cols, float_cols]
     funcs = [gen_str_vals, gen_ts_vals, gen_num_vals, gen_num_vals]
     par_names = [
         ['str_cnt', 'str_len', 'str_chars', 'col_strs'],
@@ -147,30 +272,30 @@ def gen_rand_df(
         ['low', 'high'],
         ['low', 'high'],
     ]
-    df = pd.DataFrame()
-    rng = np.random.default_rng(seed=rand_seed)
-    for i, params in enumerate(inputs):
-        if params is not None:
-            col_names, col_params, col_missing_pcts = sanitize_parameters(
-                col_types[i], params, par_names[i]
-            )
-            df = pd.concat(
-                [
-                    df,
-                    pd.DataFrame(
-                        {
-                            col: gen_missing_vals(
-                                funcs[i](nrow, rng, **col_params[j]),
-                                rng,
-                                col_types[i],
-                                col_missing_pcts[j],
-                            )
-                            for j, col in enumerate(col_names)
-                        }
-                    ),
-                ],
-                axis=1,
-            )
+    dfs = []
+    rand_rng = np.random.default_rng(seed=rand_seed)
+    for i, params in enumerate(col_params):
+        if params is None:
+            continue
+        col_names, col_params, col_missing_pcts = sanitize_parameters(
+            col_types[i], params, par_names[i]
+        )
+        df = pd.DataFrame(
+            {
+                col: gen_missing_vals(
+                    funcs[i](nrow, rand_rng, **col_params[j]),
+                    rand_rng,
+                    col_types[i],
+                    col_missing_pcts[j],
+                )
+                for j, col in enumerate(col_names)
+            }
+        )
+        dfs.append(df)
+    if len(dfs) == 0:
+        df = pd.DataFrame()
+    else:
+        df = pd.concat(dfs, axis=1)
     return df
 
 
