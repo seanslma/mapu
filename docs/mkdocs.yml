@@ -25,7 +25,7 @@ site_dir: ../../doc/mapu
 nav:
   - Home: 'index.md'
   - Tutorial: 'tutorial.md'
-  - API Reference: ../../doc/mapu/api/index.html # Link to the separate Sphinx docs
+  - API Reference: ../api/index.html # Link to the separate Sphinx docs
 
 # Configuration
 docs_dir: guide/

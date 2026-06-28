@@ -1,6 +1,7 @@
 # -- Path setup --------------------------------------------------------------
 import os
 import sys
+from datetime import datetime
 
 # Add the project root to the path so Sphinx can find the 'mapu' package
 sys.path.insert(0, os.path.abspath('../../'))
@@ -21,13 +22,13 @@ extensions = [
     # 'sphinx_autodoc_typehints',  # To display type hints nicely
     'numpydoc',  # To support NumPy style docstrings
     'sphinx_design',  # For badges, cards, etc.
-    "sphinx.ext.autodoc",
-    "sphinx.ext.napoleon",
-    "sphinx_copybutton",  # To add copy buttons to code blocks
+    'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
+    'sphinx_copybutton',  # To add copy buttons to code blocks
 ]
 
 # Strip the >>> and ... prompts so copied code is clean
-copybutton_prompt_text = ">>> |\\.\\.\\. "
+copybutton_prompt_text = '>>> |\\.\\.\\. '
 copybutton_prompt_is_regexp = True
 
 # The suffix(es) of source filenames.
@@ -58,8 +59,16 @@ html_css_files = [
     'custom.css',
 ]
 
-# If true, the reST sources are included in the HTML build as _sources/foo.txt.
+# If true, the rest sources are included in the HTML build as _sources/foo.txt.
 html_copy_source = False
+
+# disable default copyright
+html_show_copyright = False
+
+# Add back to home link and copyright in the footer
+html_context = {
+    'copyright_html': f'<a href="/" title="Go to Main Home Page">🏠 Back to Home</a><br>Copyright &copy; {datetime.now().year} Sean Ma'
+}
 
 # If true, "Created using Sphinx" is shown in the HTML footer.
 html_show_sphinx = True
