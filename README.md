@@ -4,12 +4,12 @@ My python utils package. It includes some commonly used functions, like `gen_ran
 
 ## How to install `mapu`
 
-Using pip:
+Using `pip`:
 ```sh
 pip install mapu
 ```
 
-Using uv:
+Using `uv`:
 ```sh
 uv pip install mapu
 ```
