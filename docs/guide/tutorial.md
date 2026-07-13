@@ -90,7 +90,7 @@ df_exploded.ht(2,r=2)
 ```
 Outputs:
 ```
-mmapu explode time: 0.235 seconds
+mapu explode time: 0.235 seconds
 shape: (4415424, 5)
             s1  i1    f1    f2                  ts
 0        IZD8v   0  1.43  1.78 2022-10-01 00:00:00

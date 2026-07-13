@@ -2,6 +2,13 @@
 # It will appear in the browser tab and at the top of the navigation.
 site_name: mapu
 
+# Optional: The repository URL for your project
+repo_url: https://github.com/seanslma/mapu
+
+# Optional: The URL where your site will be hosted.
+# This is used for generating absolute URLs in the site.
+site_url: https://seanslma.github.io/mapu
+
 # Optional: A short description of your site.
 # Used in metadata for SEO and sometimes in the theme.
 site_description: My python utils package
@@ -13,9 +20,6 @@ site_description: My python utils package
 # Optional: The author(s) of the documentation.
 site_author: Sean Ma
 
-# Project information
-site_url: https://github.com/mapu
-
 # Where to save the web content
 site_dir: ../../doc/mapu
 
@@ -25,10 +29,15 @@ site_dir: ../../doc/mapu
 nav:
   - Home: 'index.md'
   - Tutorial: 'tutorial.md'
-  - API Reference: ../api/index.html # Link to the separate Sphinx docs
+  - API Reference: ./api/index.html # Link to the separate Sphinx docs
 
 # Configuration
 docs_dir: guide/
+
+# Copyright notice
+copyright: |
+  <a href="/" title="Go to Main Home Page">🏠 Back to Home</a><br>
+  Copyright &copy; {year} Sean Ma
 
 # Theme Configuration
 # The 'theme' section defines the look and feel of your documentation.
@@ -83,6 +92,7 @@ theme:
     - navigation.tracking       # Highlights active section in side nav
     - navigation.sections       # Groups sub-sections under top-level entries
     - navigation.top            # Back to top button
+    - content.code.copy         # Adds a "copy" button to code blocks
     - search.highlight          # Highlight search results on page
     - search.suggest            # Auto-suggest for search queries
     # - toc.integrate             # Integrate Table of Contents into main navigation
@@ -152,3 +162,6 @@ markdown_extensions:
 
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+
+hooks:
+  - hooks.py

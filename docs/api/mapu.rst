@@ -1,7 +1,7 @@
 mapu
 ====
 
-Top-level module.
+My python utils package.
 
 Submodules
 ----------

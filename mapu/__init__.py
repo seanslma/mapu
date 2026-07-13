@@ -1,4 +1,6 @@
-from . import _version
+from importlib.metadata import version, PackageNotFoundError
 
-__version__ = _version.get_versions()['version']
-del _version
+try:
+    __version__ = version('mapu')
+except PackageNotFoundError:
+    __version__ = '0.0.0'  # Fallback for development

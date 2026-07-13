@@ -49,6 +49,12 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use. This enables the PyData Sphinx Theme.
 html_theme = 'pydata_sphinx_theme'
 
+# The theme options
+html_theme_options = {
+    'github_url': 'https://github.com/seanslma/mapu',
+    'secondary_sidebar_items': [],  # Disable the secondary sidebar items (page toc)
+}
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
