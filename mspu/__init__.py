@@ -1,6 +1,6 @@
 from importlib.metadata import version, PackageNotFoundError
 
 try:
-    __version__ = version('mapu')
+    __version__ = version('mspu')
 except PackageNotFoundError:
     __version__ = '0.0.0'  # Fallback for development

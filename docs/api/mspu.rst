@@ -1,4 +1,4 @@
-mapu
+mspu
 ====
 
 My python utils package.

@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from mapu.pandas import df_diffs
+from mspu.pandas import df_diffs
 
 
 def test_df_diffs_basic():

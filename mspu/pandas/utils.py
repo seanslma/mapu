@@ -26,7 +26,7 @@ def pd_ht(self, n: int = 2, c: int = None, w: int = None, r: int = None) -> None
     Examples
     --------
     >>> import pandas as pd
-    >>> from mapu.pandas.utils import pd_ht
+    >>> from mspu.pandas.utils import pd_ht
     >>> pd.DataFrame.ht = pd_ht
     >>> df = pd.DataFrame({
     ...     'foo': [1.12345, 2.98765, 3.14159],
@@ -114,7 +114,7 @@ def df_diffs(
     Examples
     --------
     >>> import pandas as pd
-    >>> from mapu.pandas import df_diffs
+    >>> from mspu.pandas import df_diffs
     >>> df1 = pd.DataFrame({
     ...     'fruit': ['apple', 'banana', 'apple'],
     ...     'id': [1, 2, 4],

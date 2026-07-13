@@ -1,5 +1,5 @@
 import pandas as pd
-from mapu.pandas import pa_mod
+from mspu.pandas import pa_mod
 
 
 def test_pa_mod():

@@ -3,7 +3,7 @@
 data
 ======
 
-.. currentmodule:: mapu.data
+.. currentmodule:: mspu.data
 
 Functions
 ~~~~~~~~~

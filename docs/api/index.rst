@@ -1,13 +1,13 @@
-.. mapu documentation master file
+.. mspu documentation master file
 
-Mapu API Reference
+mspu API Reference
 ==================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   mapu
+   mspu
    data
    pandas
    polars

@@ -3,7 +3,7 @@
 pandas
 ======
 
-.. currentmodule:: mapu.pandas
+.. currentmodule:: mspu.pandas
 
 Functions
 ~~~~~~~~~

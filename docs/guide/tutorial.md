@@ -1,12 +1,12 @@
 # Quick Tutorial: Using explode_date_range
 
-This tutorial shows you how to use the `mapu.pandas.explode_date_range` function.
+This tutorial shows you how to use the `mspu.pandas.explode_date_range` function.
 
 ## 1. Install the package
 
-First, ensure you have the `mapu` package installed:
+First, ensure you have the `mspu` package installed:
 ```sh
-pip install mapu
+pip install mspu
 ```
 
 ## 2. Displaying dataframe
@@ -15,7 +15,7 @@ When you print a pandas DataFrame, sometimes the default settings are not good e
 
 ```py
 import pandas as pd
-from mapu.pandas import pd_ht
+from mspu.pandas import pd_ht
 pd.DataFrame.ht = pd_ht
 df = pd.DataFrame({
   'foo': [1.12345, 2.98765, 3.14159],
@@ -40,7 +40,7 @@ The `gen_rand_df` can be used to create random data in a pandas DataFrame for te
 In this example, we'll create a dataframe with one string column, two timestamp columns, one integer column, and two float columns, for one year with a resolution of one minute.
 
 ```py
-from mapu.data import gen_rand_df
+from mspu.data import gen_rand_df
 
 df = gen_rand_df(
     nrow=100,
@@ -72,7 +72,7 @@ shape: (100, 6)
 This function can be used to explode two datetime columns in a pandas DataFrame to a list of datetime values as a new column. It's about `30x` faster than using the pandas `df.explode` function.
 ```py
 import time
-from mapu.pandas import explode_date_range
+from mspu.pandas import explode_date_range
 
 # assume we already created the df in the previous section
 t0 = time.time()
@@ -85,12 +85,12 @@ df_exploded = explode_date_range(
     inclusive='left',
     drop_date_cols=True,
 )
-print(f'mapu explode time: {time.time() - t0:.3f} seconds')
+print(f'mspu explode time: {time.time() - t0:.3f} seconds')
 df_exploded.ht(2,r=2)
 ```
 Outputs:
 ```
-mapu explode time: 0.235 seconds
+mspu explode time: 0.235 seconds
 shape: (4415424, 5)
             s1  i1    f1    f2                  ts
 0        IZD8v   0  1.43  1.78 2022-10-01 00:00:00

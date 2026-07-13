@@ -1,10 +1,10 @@
 package:
-  name: mapu
+  name: mspu
   version: "{{ VERSION }}"
 
 source:
   # This path is relative to the directory containing meta.yaml.
-  path: ../ # if it's `../mapu` conda-build will not copy the setup.cfg etc.
+  path: ../ # if it's `../mspu` conda-build will not copy the setup.cfg etc.
 
 build:
   # Number of times this exact recipe has been built for this version.
@@ -63,7 +63,7 @@ about:
   summary: "My python utils package"
 
   # The homepage or project URL.
-  home: https://github.com/seanslma/mapu
+  home: https://github.com/seanslma/mspu
 
   # The license under which your package is distributed.
   # Use an SPDX identifier if possible (e.g., MIT, BSD-3-Clause, Apache-2.0).

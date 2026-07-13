@@ -16,4 +16,4 @@ sphinx-build -b html api ../_build/html/api
 cd ..
 
 # Copy to the final build directory
-cp -a ./_build/html/. ../seanslma.github.io/mapu/
+cp -a ./_build/html/. ../seanslma.github.io/mspu/

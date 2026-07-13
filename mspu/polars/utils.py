@@ -28,7 +28,7 @@ def pl_ht(self, n: int = 2, c: int = None, w: int = None, r: int = None) -> None
     Examples
     --------
     >>> import polars as pl
-    >>> from mapu.polars.utils import pl_ht
+    >>> from mspu.polars.utils import pl_ht
     >>> pl.DataFrame.ht = pl_ht
     >>> df = pl.DataFrame({
     ...   'foo': [1.12345, 2.98765, 3.14159],

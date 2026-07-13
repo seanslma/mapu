@@ -3,7 +3,7 @@ requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "mapu"
+name = "mspu"
 dynamic = ["version"]
 description = "Ma's python utils package."
 authors = [

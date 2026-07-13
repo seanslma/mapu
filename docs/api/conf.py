@@ -3,11 +3,11 @@ import os
 import sys
 from datetime import datetime
 
-# Add the project root to the path so Sphinx can find the 'mapu' package
+# Add the project root to the path so Sphinx can find the 'mspu' package
 sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
-project = 'mapu'
+project = 'mspu'
 copyright = '2026, Sean Ma'
 author = 'Sean Ma'
 release = '0.0.1'
@@ -51,7 +51,7 @@ html_theme = 'pydata_sphinx_theme'
 
 # The theme options
 html_theme_options = {
-    'github_url': 'https://github.com/seanslma/mapu',
+    'github_url': 'https://github.com/seanslma/mspu',
     'secondary_sidebar_items': [],  # Disable the secondary sidebar items (page toc)
 }
 

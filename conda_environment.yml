@@ -1,4 +1,4 @@
-name: mapu
+name: mspu
 channels:
   - conda-forge
   - defaults

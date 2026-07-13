@@ -3,7 +3,7 @@
 polars
 ======
 
-.. currentmodule:: mapu.polars
+.. currentmodule:: mspu.polars
 
 Functions
 ~~~~~~~~~

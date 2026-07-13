@@ -1,13 +1,13 @@
 # Required: The site_name is the title of your documentation site.
 # It will appear in the browser tab and at the top of the navigation.
-site_name: mapu
+site_name: mspu
 
 # Optional: The repository URL for your project
-repo_url: https://github.com/seanslma/mapu
+repo_url: https://github.com/seanslma/mspu
 
 # Optional: The URL where your site will be hosted.
 # This is used for generating absolute URLs in the site.
-site_url: https://seanslma.github.io/mapu
+site_url: https://seanslma.github.io/mspu
 
 # Optional: A short description of your site.
 # Used in metadata for SEO and sometimes in the theme.
@@ -21,7 +21,7 @@ site_description: My python utils package
 site_author: Sean Ma
 
 # Where to save the web content
-site_dir: ../../doc/mapu
+site_dir: ../../doc/mspu
 
 # Navigation Structure
 # The 'nav' section defines the structure and order of your documentation.
@@ -116,7 +116,7 @@ plugins:
             # and 'sim' is in 'my_project_root/mapy/sim',
             # you need to go UP one level (..) to 'my_project_root/',
             # then DOWN into 'mapy/'.
-            - ../mapu/ # <--- Corrected path!
+            - ../mspu/ # <--- Corrected path!
           options:
             show_source: true
             show_root_heading: true
